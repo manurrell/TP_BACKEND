@@ -1,17 +1,18 @@
 const axios = require('axios');
-
 const apiExterna = {
     async BuscarPokemon (req, res) {
         try {
+                console.log(req.params.name)
                 const PokemonName = req.params.name;
-                if (nombrePokemon === undefined) {
+                if (PokemonName === undefined) {
                     res.status(400).json(
                         {
                             message: "no se ingreso ningun nombre"
                         }
                     )
                 } else {
-                    const ApiResponse = await axios.get('https://pokeapi.co/api/v2/pokemon/' + PokemonName);
+                    console.log("hola")
+                    const ApiResponse = await axios.get(`https://pokeapi.co/api/v2/pokemon/${PokemonName}`);
                     if (ApiResponse.data.types.length === 0) {
                         res.status(404).json(
                             {
@@ -19,10 +20,12 @@ const apiExterna = {
                             }
                         )
                     } else {
-                        const Types = ApiResponse.data.types.map(tipo => tipo.type.name);
+                        console.log(ApiResponse.data)
+                        const ApiData = ApiResponse.data;
+                        const Types = ApiData.types.map(tipo => tipo.type.name);
                         const Pokemon = {
-                            nombre: ApiResponse.data.name,
-                            numero: ApiResponse.data.id,
+                            nombre: ApiData.name,
+                            numero: ApiData.id,
                             tipos: Types,
                         }
                         res.status(200).json(Pokemon)
