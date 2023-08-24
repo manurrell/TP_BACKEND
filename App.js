@@ -3,6 +3,7 @@ const logger = require('morgan')
 const cors = require('cors')
 const app = express()
 const apiRouter = require('./routers/api')
+const apiExternaRouter = require('./routers/apiExterna')
 
 app.use(logger('dev'));
 app.use (express.json());
@@ -13,6 +14,7 @@ const {connect} = require('./db/db')
 
 
 app.use('/', apiRouter)
+app.use('/BusquedaPokedexGlobal', apiExternaRouter)
 
 connect();
 
